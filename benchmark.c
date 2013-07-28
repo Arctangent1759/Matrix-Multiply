@@ -17,10 +17,10 @@ int main( int argc, char **argv )
 {
   srand(time(NULL));
 
-  for( int n = 36; n <= 100; n+=1 )
+  for( int m = 100; m >= 32; m-=1 )
   {
 	/* Try different m */
-	for( int m = 36; m <= 100; m+=1 )
+	for( int n = 300; n >= 32; n-=1 )
 	{
 	  /* Allocate and fill 2 random matrices A, C */
 	  float *A = (float*) malloc( m * n * sizeof(float) );
@@ -51,6 +51,7 @@ int main( int argc, char **argv )
 	  }
 
 	  printf( "%d by %d matrix \t %g Gflop/s\n", m, n, Gflop_s );
+	  fflush(stdout);
 
 	  /* Ensure that error does not exceed the theoretical error bound */
 
