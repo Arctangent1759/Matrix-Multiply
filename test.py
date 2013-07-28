@@ -27,10 +27,8 @@ def classify(x):
 
 def computeAvg(s):
   if num[s]==0:
-	print("A");
-	return "NaN"
+	return "Not a Number"
   else:
-	print("B");
 	return float(total[s])/float(num[s]);
 
 total={
@@ -69,9 +67,9 @@ while (True):
 
   print("""Averages:
   long: {0}
-  wide: {0}
-  square: {0}
-  all: {0}
+  wide: {1}
+  square: {2}
+  all: {3}
  """.format(
  computeAvg('long'),
  computeAvg('wide'),

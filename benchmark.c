@@ -17,7 +17,7 @@ int main( int argc, char **argv )
 {
   srand(time(NULL));
 
-  for( int m = 100; m >= 32; m-=1 )
+  for( int m = 32; m <= 100; m+=1 )
   {
 	/* Try different m */
 	for( int n = 300; n >= 32; n-=1 )
