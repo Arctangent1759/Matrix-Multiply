@@ -34,8 +34,11 @@ bench-small: benchmark.o sgemm-small.o
 bench-openmp: benchmark.o sgemm-openmp.o
 	$(CC) -o $@ $(LIBS) $(OMP) benchmark.o sgemm-openmp.o $(GOTOLIB)
 
+bench-test: tester.o sgemm-openmp.o
+	$(CC) -o $@ $(LIBS) $(OMP) tester.o sgemm-openmp.o $(GOTOLIB)
+
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<
 
 clean:
-	rm -f *~ bench-naive bench-small bench-openmp *.o
+	rm -f *~ bench-naive bench-small bench-openmp bench-test *.o 
