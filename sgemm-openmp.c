@@ -5,7 +5,7 @@
 
 #define blocksize 16
 #define padsize 16
-#define threadnum 4
+#define threadnum 16
 
 void sgemm( int m_a, int n_a, float *A, float *B, float *C ) {
   omp_set_num_threads(threadnum);
@@ -21,7 +21,7 @@ void sgemm( int m_a, int n_a, float *A, float *B, float *C ) {
 	printf("Memory Allocation failure.");
 	exit(1);
   }
-  register int i,j,k,l,offset, shift_a, shift_b, shift_c, thread_result;
+  register int i,j,k,l,offset, shift_a, shift_b, shift_c;
 
   //Convert A to row major and pad
 #pragma omp parallel for
@@ -39,15 +39,14 @@ void sgemm( int m_a, int n_a, float *A, float *B, float *C ) {
   }
 
   register __m128 a_vec, b_vec, c_vec;
+  float res;
   //Multiply the matrices
-#pragma omp parallel for private(i,j,k,l,shift_a,shift_b,shift_c,offset,a_vec,b_vec,c_vec,thread_result)
-  for (j=0; j<m_a_padded; j+=blocksize){ //B column
+  for (j=0; j<m_a_padded; j++){ //B column
 	for (i=0; i<m_a_padded; i+=blocksize){ //A row
-	  for (l=j; l<j+blocksize;l++){
 		for(k=i; k<i+blocksize; k++){
 		  shift_a=k*n_a_padded;
-		  shift_b=l*n_a_padded;
-		  shift_c=l*m_a_padded;
+		  shift_b=j*n_a_padded;
+		  shift_c=j*m_a_padded;
 		  c_vec = _mm_setzero_ps();
 		  for (offset=0; offset<n_a_padded; offset+=4){
 			a_vec=_mm_loadu_ps(A_r+offset+shift_a);
@@ -56,13 +55,9 @@ void sgemm( int m_a, int n_a, float *A, float *B, float *C ) {
 			//C[k+shift_c]+=A_r[offset+shift_a]*B_c[offset+shift_b];
 		  }
 		  _mm_storeu_ps(unpacker+omp_get_thread_num()*4,c_vec);
-		  thread_result=unpacker[omp_get_thread_num()*4]+unpacker[omp_get_thread_num()*4+1]+unpacker[omp_get_thread_num()*4+2]+unpacker[omp_get_thread_num()*4+3];
-#pragma omp critical
-		  {
-			C_p[k+shift_c]=thread_result;
-		  }
+		  res=unpacker[omp_get_thread_num()*4]+unpacker[omp_get_thread_num()*4+1]+unpacker[omp_get_thread_num()*4+2]+unpacker[omp_get_thread_num()*4+3];
+		  C_p[k+shift_c]=res;
 		}
-	  }
 	}
   }
 
