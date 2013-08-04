@@ -31,7 +31,7 @@ int main( int argc, char **argv )
 	if(m < 1000 || m > 10000 || n < 32 || n > 10000)
 	{
 		printf("Dimensions provided are out of the range of matrices we will be testing!  Change tester.c to modify range checking.\n");
-		exit(0);
+		//exit(0);
 	}
 
 	/* Allocate and fill 2 random matrices A, C */

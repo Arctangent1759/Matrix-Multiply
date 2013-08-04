@@ -6,9 +6,11 @@
 #define blocksize 16
 
 void sgemm( int m_a, int n_a, float *A, float *B, float *C ) {
+  omp_set_num_threads(2);
   int prod=m_a*n_a;
   float *A_r = (float*)calloc(prod,sizeof(float));
   float *B_c = (float*)calloc(prod,sizeof(float));
+  float *unpacker = (float*)malloc(sizeof(float)*4);
   if (!A_r || !B_c){
 	printf("Memory Allocation failure.");
 	exit(1);
@@ -28,15 +30,24 @@ void sgemm( int m_a, int n_a, float *A, float *B, float *C ) {
 	}
   }
 
+  register __m128 a_vec, b_vec, c_vec;
   //Multiply the matrices
-  for (j=0; j<m_a; j++){ //B index
-	for (i=0; i<m_a; i++){ //A index
-	  shift_a=j*n_a;
-	  shift_b=i*n_a;
+  for (j=0; j<m_a; j++){ //B column
+	for (i=0; i<m_a; i++){ //A row
+	  shift_a=i*n_a;
+	  shift_b=j*n_a;
 	  shift_c=j*m_a;
-	  for (offset=0; offset<n_a; offset++){
-		C[i+shift_c]+=A_r[i+shift_a]*B_c[j+shift_b];
+	  c_vec = _mm_setzero_ps();
+	  for (offset=0; offset<n_a; offset+=4){
+		a_vec=_mm_loadu_ps(A_r+offset+shift_a);
+		b_vec=_mm_loadu_ps(B_c+offset+shift_b);
+		{
+		c_vec=_mm_add_ps(c_vec,_mm_mul_ps(a_vec,b_vec));
+		}
+		//C[i+shift_c]+=A_r[offset+shift_a]*B_c[offset+shift_b];
 	  }
+	  _mm_storeu_ps(unpacker,c_vec);
+	  C[i+shift_c]=unpacker[0]+unpacker[1]+unpacker[2]+unpacker[3];
 	}
   }
 

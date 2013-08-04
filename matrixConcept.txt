@@ -1,0 +1,36 @@
+A F K P
+B G L Q
+C H M R
+D I N S
+E J O T
+
+a b c d e
+f g h i j
+k l m n o
+p q r s t
+
+Aa+Ff+Kk+Pp Ab+Fg+Kl+Pq Ac+Fh+Km+Pr Ad+Fi+Kn+Ps Ae+Fj+Ko+Pt
+Ba+Gf+Lk+Qp Bb+Gg+Ll+Qq Bc+Gh+Lm+Qr Bd+Gi+Ln+Qs Be+Gj+Lo+Qt 
+Ca+Hf+Mk+Rp Cb+Hg+Ml+Rq Cc+Hh+Mm+Rr Cd+Hi+Mn+Rs Ce+Hj+Mo+Rt
+Da+If+Nk+Sp Db+Ig+Nl+Sq Dc+Ih+Nm+Sr Dd+Ii+Nn+Ss De+Ij+No+St
+Ea+Jf+Ok+Tp Eb+Jg+Ol+Tq Ec+Jh+Om+Tr Ed+Ji+On+Ts Ee+Jj+Oo+Tt
+
+      n_a                                m_a       
+    [     ]           m_a          [              ]
+    [     ]       [        ]       [              ]
+m_a [     ] x n_a [        ] = m_a [              ]
+    [     ]       [        ]       [              ]
+    [     ]                        [              ]
+
+
+A E I M
+B F J N
+C G K O
+D H L P
+ 
+a b c d
+e f g h
+i j k l
+m n o p
+
+

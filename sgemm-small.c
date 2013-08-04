@@ -15,7 +15,7 @@ void sgemm( int m_a, int n_a, float *A, float *B, float *C ) {
 		c_vec1 = _mm_setzero_ps(); //Load c_vec1 into memory
 		c_vec2 = _mm_setzero_ps(); //Load c_vec1 into memory
 		c_vec3 = _mm_setzero_ps(); //Load c_vec1 into memory
-		c_vec4 = _mm_setzero_ps(); //Load c_vec1 into memory
+		c_vec8 = _mm_setzero_ps(); //Load c_vec1 into memory
 		c_vec5 = _mm_setzero_ps(); //Load c_vec1 into memory
 		c_vec6 = _mm_setzero_ps(); //Load c_vec1 into memory
 		c_vec7 = _mm_setzero_ps(); //Load c_vec1 into memory
